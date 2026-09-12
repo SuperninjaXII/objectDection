@@ -22,3 +22,13 @@ Xp = dataset[:, 0]
 Yp = dataset[:, 1:]
 
 print(Xp)
+# layers
+
+
+class LayerDense:
+    def __init__(self, n_input, n_neurons):
+        self.weights = 0.01 * numpy.random.randn(n_input, n_neurons)
+        self.biases = numpy.zeros((1, n_neurons))
+
+    def forward(self, inputs):
+        self.output = numpy.dot(inputs, self.weights) + self.biases
