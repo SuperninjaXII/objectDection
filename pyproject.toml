@@ -1,0 +1,19 @@
+[project]
+name = "objectdection"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "x2", email = "lunguj665@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "ultralytics>=8.4.152",
+]
+
+[project.scripts]
+objectdection = "objectdection:main"
+
+[build-system]
+requires = ["uv_build>=0.12.13,<0.13.0"]
+build-backend = "uv_build"
