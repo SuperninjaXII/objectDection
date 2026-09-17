@@ -35,17 +35,12 @@ def detect_faces(video_path, weights="yolov8n.pt"):
             print("Video stream ended or cannot be read.")
             break
 
-        # Run YOLO inference
-        # If your face model is trained specifically for faces, it will output face bounding boxes
         results = model(frame, verbose=False)
 
-        # Plot the detections on the frame
         annotated_frame = results[0].plot()
 
-        # Display the annotated frame
         cv2.imshow("YOLO Face Detection", annotated_frame)
 
-        # Press 'q' to quit early
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
 
@@ -58,14 +53,12 @@ if __name__ == "__main__":
         description="YOLO Face Detection and Training Script"
     )
 
-    # Mutually exclusive group: you must choose either --train or --detect
     mode_group = parser.add_mutually_exclusive_group(required=True)
     mode_group.add_argument("--train", action="store_true", help="Run in training mode")
     mode_group.add_argument(
         "--detect", action="store_true", help="Run in detection (inference) mode"
     )
 
-    # General arguments
     parser.add_argument(
         "--weights",
         type=str,
@@ -73,7 +66,6 @@ if __name__ == "__main__":
         help="Path to YOLO weights (.pt file)",
     )
 
-    # Training-specific arguments
     parser.add_argument(
         "--data", type=str, help="Path to dataset YAML file (required for training)"
     )
@@ -81,14 +73,12 @@ if __name__ == "__main__":
         "--epochs", type=int, default=50, help="Number of epochs to train (default: 50)"
     )
 
-    # Detection-specific arguments
     parser.add_argument(
         "--video", type=str, help="Path to input video file (required for detection)"
     )
 
     args = parser.parse_args()
 
-    # Route to the appropriate function based on the selected flag
     if args.train:
         if not args.data:
             parser.error(
