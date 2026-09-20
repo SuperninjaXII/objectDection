@@ -1,54 +1,9 @@
 import argparse
-import cv2
-import sys
-from ultralytics import YOLO
+from detect import detect_faces
+from tarin import train_model
 
 
-def train_model(data_yaml, epochs=50, weights="yolov8n.pt"):
-    """Trains a YOLOv8 model on a custom dataset."""
-    print(
-        f"Starting training using {weights} on dataset {data_yaml} for {
-            epochs
-        } epochs..."
-    )
-    model = YOLO(weights)
-
-    model.train(data=data_yaml, epochs=epochs, imgsz=640)
-    print(
-        "Training complete! Your weights are saved in 'runs/detect/train/weights/best.pt'"
-    )
-
-
-def detect_faces(video_path, weights="yolov8n.pt"):
-    """Runs YOLOv8 inference on a video stream."""
-    print(f"Loading model {weights} for inference on {video_path}...")
-    model = YOLO(weights)
-
-    cap = cv2.VideoCapture(video_path)
-    if not cap.isOpened():
-        print(f"Error: Could not open video file {video_path}")
-        sys.exit(1)
-
-    while cap.isOpened():
-        success, frame = cap.read()
-        if not success:
-            print("Video stream ended or cannot be read.")
-            break
-
-        results = model(frame, verbose=False)
-
-        annotated_frame = results[0].plot()
-
-        cv2.imshow("YOLO Face Detection", annotated_frame)
-
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            break
-
-    cap.release()
-    cv2.destroyAllWindows()
-
-
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description="YOLO Face Detection and Training Script"
     )
@@ -92,3 +47,7 @@ if __name__ == "__main__":
                 "The --detect mode requires the --video argument (path to your input video)."
             )
         detect_faces(args.video, args.weights)
+
+
+if __name__ == "__main__":
+    main()
