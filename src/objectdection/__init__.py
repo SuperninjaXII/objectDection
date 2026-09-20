@@ -1,6 +1,6 @@
 import argparse
 from detect import detect_faces
-from tarin import train_model
+from train import train_model
 
 
 def main():
